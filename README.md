@@ -16,9 +16,6 @@ Begin by importing and installing the SkyAppear Vue plugin:
 import Vue from 'vue';
 import SkyAppear from 'sky-appear';
 
-// If you want to use the baseline scss add the following line
-import '${YOUR-PROJECT-ROOT-PATH}/node_modules/sky-appear/src/SkyAppear.scss';
-
 Vue.use(SkyAppear);
 
 ```
