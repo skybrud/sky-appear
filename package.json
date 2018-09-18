@@ -1,0 +1,27 @@
+{
+	"name": "sky-appear",
+	"version": "0.0.0",
+	"description": "Vue directive for apply class on elements appearing in viewport",
+	"main": "./dist/sky-appear.ssr.js",
+	"module": "./dist/sky-appear.esm.js",
+	"browser": "./dist/sky-appear.esm.js",
+	"scripts": {
+		"dist": "yarn rimraf dist && yarn run build",
+		"build": "yarn rollup --config rollup.config.js --environment BUILD:production"
+	},
+	"author": "Skybrud.dk",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/skybrud/sky-appear.git"
+	},
+	"dependencies": {
+		"intersection-observer": "^0.5.0"
+	},
+	"devDependencies": {
+		"sky-build-setup": "https://github.com/skybrud/sky-build-setup.git"
+	},
+	"peerDependencies": {
+		"vue": "^2.5.0"
+	}
+}

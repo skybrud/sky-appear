@@ -42,50 +42,56 @@ function _appear(element) {
 	}
 }
 
-export default {
-	install(Vue, userOptions) {
-		const options = Object.assign({
+export default function install(Vue, userOptions) {
+	if (install.installed === true) {
+		return;
+	}
+
+	const options = Object.assign(
+		{
 			delay: true, // whether to delay appear or not
 			delayFunction: entry => entry.intersectionRect.top / entry.rootBounds.height * 50, // how much to delay (default based on y pos)
-		}, userOptions);
-		// Instantiate observer
-		const observer = (typeof window !== 'undefined')
-			? new IntersectionObserver((entries, obs) => {
-				entries.forEach((entry) => {
-					if (entry.isIntersecting) {
-						setTimeout(() => {
-							_appear(entry.target);
-						}, options.delay ? options.delayFunction(entry) : 0);
-						obs.unobserve(entry.target);
-					}
-				});
-			})
-			: null;
+		},
+		userOptions,
+	);
 
-		const observe = (el, callback) => {
-			_addObserved(el, callback);
-			observer.observe(el);
-		};
-
-		const unobserve = (el) => {
-			observer.unobserve(el);
-			_removeObserved(el);
-		};
-
-		Vue.directive('sky-appear', {
-			inserted(el, binding) {
-				el.classList.add('sky-appear');
-				if (observer) {
-					observe(el, binding.value);
-				} else {
-					el.classList.add('appear');
+	// Instantiate observer
+	const observer = typeof window === 'undefined'
+		? null
+		: new IntersectionObserver((entries, obs) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					setTimeout(() => {
+						_appear(entry.target);
+					}, options.delay ? options.delayFunction(entry) : 0);
+					obs.unobserve(entry.target);
 				}
-			},
-			unbind(el) {
-				if (observer) {
-					unobserve(el);
-				}
-			},
+			});
 		});
-	},
+
+	const observe = (el, callback) => {
+		_addObserved(el, callback);
+		observer.observe(el);
+	};
+
+	const unobserve = (el) => {
+		observer.unobserve(el);
+		_removeObserved(el);
+	};
+
+	Vue.directive('sky-appear', {
+		inserted(el, binding) {
+			el.classList.add('sky-appear');
+			if (observer) {
+				observe(el, binding.value);
+			} else {
+				el.classList.add('appear');
+			}
+		},
+		unbind(el) {
+			if (observer) {
+				unobserve(el);
+			}
+		},
+	});
 };
