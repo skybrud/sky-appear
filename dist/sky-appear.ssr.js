@@ -51,13 +51,18 @@ function install(Vue, userOptions) {
 		return;
 	}
 
-	const options = Object.assign({
-		delay: true, // whether to delay appear or not
-		delayFunction: entry => entry.intersectionRect.top / entry.rootBounds.height * 50, // how much to delay (default based on y pos)
-	}, userOptions);
+	const options = Object.assign(
+		{
+			delay: false, // whether to delay appear or not
+			delayFunction: entry => entry.intersectionRect.top / entry.rootBounds.height * 50, // how much to delay (default based on y pos)
+		},
+		userOptions,
+	);
+
 	// Instantiate observer
-	const observer = (typeof window !== 'undefined')
-		? new IntersectionObserver((entries, obs) => {
+	const observer = typeof window === 'undefined'
+		? null
+		: new IntersectionObserver((entries, obs) => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
 					setTimeout(() => {
@@ -66,8 +71,7 @@ function install(Vue, userOptions) {
 					obs.unobserve(entry.target);
 				}
 			});
-		})
-		: null;
+		});
 
 	const observe = (el, callback) => {
 		_addObserved(el, callback);
