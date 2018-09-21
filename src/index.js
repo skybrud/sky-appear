@@ -49,7 +49,7 @@ export default function install(Vue, userOptions) {
 
 	const options = Object.assign(
 		{
-			delay: true, // whether to delay appear or not
+			delay: false, // whether to delay appear or not
 			delayFunction: entry => entry.intersectionRect.top / entry.rootBounds.height * 50, // how much to delay (default based on y pos)
 		},
 		userOptions,
