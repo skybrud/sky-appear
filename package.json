@@ -1,6 +1,6 @@
 {
 	"name": "sky-appear",
-	"version": "0.0.3-0",
+	"version": "0.0.3",
 	"description": "Vue directive for apply class on elements appearing in viewport",
 	"main": "./dist/sky-appear.ssr.js",
 	"module": "./dist/sky-appear.esm.js",
