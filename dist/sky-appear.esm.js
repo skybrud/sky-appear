@@ -5,28 +5,28 @@ if (typeof window !== 'undefined') {
 
 // Keep manual list of observed items in order to execute callbacks
 // from Vue directive (via binding.value)
-const _observed = [];
+var _observed = [];
 
 // Get helper
 function _getObserved(element) {
 	return _observed
-		.find(item => item.element === element);
+		.find(function (item) { return item.element === element; });
 }
 
 // Add helper
 function _addObserved(element, callback) {
 	_observed.push({
-		element,
-		callback,
+		element: element,
+		callback: callback,
 	});
 }
 
 // Remove helper
 function _removeObserved(element) {
-	const observedItem = _getObserved(element);
+	var observedItem = _getObserved(element);
 
 	if (observedItem) {
-		const index = _observed.indexOf(observedItem);
+		var index = _observed.indexOf(observedItem);
 		_observed.splice(index, 1);
 	}
 }
@@ -34,7 +34,7 @@ function _removeObserved(element) {
 // Appear method
 function _appear(element) {
 	element.classList.add('appear');
-	const observedItem = _getObserved(element);
+	var observedItem = _getObserved(element);
 	if (observedItem
 		&& observedItem.callback
 		&& observedItem.callback instanceof Function) {
@@ -47,21 +47,21 @@ function install(Vue, userOptions) {
 		return;
 	}
 
-	const options = Object.assign(
+	var options = Object.assign(
 		{
 			delay: false, // whether to delay appear or not
-			delayFunction: entry => entry.intersectionRect.top / entry.rootBounds.height * 50, // how much to delay (default based on y pos)
+			delayFunction: function (entry) { return entry.intersectionRect.top / entry.rootBounds.height * 50; }, // how much to delay (default based on y pos)
 		},
-		userOptions,
+		userOptions
 	);
 
 	// Instantiate observer
-	const observer = typeof window === 'undefined'
+	var observer = typeof window === 'undefined'
 		? null
-		: new IntersectionObserver((entries, obs) => {
-			entries.forEach((entry) => {
+		: new IntersectionObserver(function (entries, obs) {
+			entries.forEach(function (entry) {
 				if (entry.isIntersecting) {
-					setTimeout(() => {
+					setTimeout(function () {
 						_appear(entry.target);
 					}, options.delay ? options.delayFunction(entry) : 0);
 					obs.unobserve(entry.target);
@@ -69,18 +69,18 @@ function install(Vue, userOptions) {
 			});
 		});
 
-	const observe = (el, callback) => {
+	var observe = function (el, callback) {
 		_addObserved(el, callback);
 		observer.observe(el);
 	};
 
-	const unobserve = (el) => {
+	var unobserve = function (el) {
 		observer.unobserve(el);
 		_removeObserved(el);
 	};
 
 	Vue.directive('sky-appear', {
-		inserted(el, binding) {
+		inserted: function inserted(el, binding) {
 			el.classList.add('sky-appear');
 			if (observer) {
 				observe(el, binding.value);
@@ -88,7 +88,7 @@ function install(Vue, userOptions) {
 				el.classList.add('appear');
 			}
 		},
-		unbind(el) {
+		unbind: function unbind(el) {
 			if (observer) {
 				unobserve(el);
 			}
