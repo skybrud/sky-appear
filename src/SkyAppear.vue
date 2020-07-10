@@ -12,6 +12,7 @@ const defaultOptions = {
 };
 
 export default {
+	name: 'SkyAppear',
 	///////////////////////////////////// variables
 	props: {
 		active: {
@@ -261,6 +262,23 @@ export default {
 			this.previousEl = this.$el;
 		}
 	},
+	destroyed() {
+		// Remove events and observer
+		this.updateActiveTriggerEvents();
+		if (this.$el) {
+			this.classRemove(
+				this.$el,
+				'sky-appear',
+				'sky-appear--outside-viewport',
+				'sky-appear--outside-viewport--before',
+				'sky-appear--outside-viewport--after',
+				'sky-appear--inside-viewport'
+			);
+		}
+		if (this.observer) {
+			this.observer.disconnect();
+		}
+	},
 
 	///////////////////////////////////// methods
 	methods: {
@@ -312,6 +330,7 @@ export default {
 						target,
 					} = obs[0];
 					const statePrevious = this.state;
+					const intersectionRatioPrevious = this.intersectionRatio;
 					this.intersectionRatio = 0;
 					this.isBeforeViewport = false;
 					this.isAfterViewport = false;
@@ -426,6 +445,17 @@ export default {
 						this.state === 'inside'
 					) {
 						this.activeOverwrite = false;
+					} else {
+						// Nothing has changed, so no need for an update (only for real entries)
+						const observerType =
+							obs && obs[0] && obs[0]?.constructor?.name;
+						if (
+							observerType === 'IntersectionObserverEntry' &&
+							this.state === statePrevious &&
+							this.intersectionRatio === intersectionRatioPrevious
+						) {
+							return;
+						}
 					}
 
 					// Compile data for emission
@@ -711,23 +741,6 @@ export default {
 			});
 		}
 		return null;
-	},
-	destroy() {
-		// Remove events and observer
-		this.updateActiveTriggerEvents();
-		if (this.$el) {
-			this.classRemove(
-				this.$el,
-				'sky-appear',
-				'sky-appear--outside-viewport',
-				'sky-appear--outside-viewport--before',
-				'sky-appear--outside-viewport--after',
-				'sky-appear--inside-viewport'
-			);
-		}
-		if (this.observer) {
-			this.observer.disconnect();
-		}
 	},
 };
 </script>
