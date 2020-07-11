@@ -1,7 +1,7 @@
 {
 	"name": "sky-appear",
 	"version": "0.0.3",
-	"description": "Vue directive for apply class on elements appearing in viewport",
+	"description": "Renderless Vue wrapper component for apply class on elements appearing in viewport",
 	"main": "./dist/sky-appear.ssr.js",
 	"module": "./dist/sky-appear.esm.js",
 	"browser": "./dist/sky-appear.esm.js",
@@ -9,7 +9,7 @@
 		"dist": "yarn rimraf dist && yarn run build",
 		"build": "yarn rollup --config rollup.config.js --environment BUILD:production"
 	},
-	"author": "Skybrud.dk",
+	"author": "Limbo",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
