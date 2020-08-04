@@ -448,7 +448,7 @@ export default {
 					} else {
 						// Nothing has changed, so no need for an update (only for real entries)
 						const observerType =
-							obs && obs[0] && obs[0]?.constructor?.name;
+							obs && obs[0] && obs[0].constructor && obs[0].constructor.name;
 						if (
 							observerType === 'IntersectionObserverEntry' &&
 							this.state === statePrevious &&
