@@ -21,21 +21,21 @@ This package depends on the [IntersectionObserver](https://developer.mozilla.org
 Import and install the SkyAppear wrapper component:
 
 ``` js
-import Vue from ‘vue’;
-import { SkyAppear } from ‘sky-appear’;
+import Vue from 'vue';
+import { SkyAppear } from 'sky-appear';
 
 export default {
-	name: ‘ExampleComponent’,
+	name: 'ExampleComponent',
 	components: { SkyAppear },
 	mounted() {
-		console.log(‘Example component loaded’);
+		console.log('Example component loaded');
 	},
 };
 ```
 
 Alternatively SkyAppear can be installed globally:
 
-```
+```js
 import Vue from 'vue';
 import SkyAppear from 'sky-appear';
 
@@ -46,23 +46,23 @@ Vue.use(SkyAppear);
 
 The wrapper component adds the class `sky-appear` to the wrapped element when the dom is loaded and the wrapper component is active. Supplementary classes are then added or removed depending on the element’s relation to the viewport.
 
-* When the element enters the viewport the class `lbmo-appear--inside-viewport` is added.
-* When the element is outside the viewport the class `lmbo-appear--outside-viewport` is added.
-* When the element is positioned before the viewport the class `lbmo-appear--outside-viewport--before` is added\* in addition to the `lmbo-appear--outside-viewport` class.
-* When the element is positioned after the viewport the class `lbmo-appear--outside-viewport--after` is added\* in addition to the `lmbo-appear--outside-viewport` class.
+* When the element enters the viewport the class `sky-appear--inside-viewport` is added.
+* When the element is outside the viewport the class `sky-appear--outside-viewport` is added.
+* When the element is positioned before the viewport the class `sky-appear--outside-viewport--before` is added\* in addition to the `sky-appear--outside-viewport` class.
+* When the element is positioned after the viewport the class `sky-appear--outside-viewport--after` is added\* in addition to the `sky-appear--outside-viewport` class.
 
 \*The before and after classes will only be set when direction is either "inline" or "block". When the direction is "both" a before or after situation cannot be determined.
 
 ``` html
 <!-- As written in Vue -->
 <SkyAppear>
-	<div class=“test-element”>
+	<div class="test-element">
 		Show only when entering the viewport
 	</div>
 </SkyAppear>
 
 <!-- As it may appear in the dom -->
-<div class=“test-element sky-appear sky-appear--outside-viewport sky-appear--outside-viewport--after”>
+<div class="test-element sky-appear sky-appear--outside-viewport sky-appear--outside-viewport--after">
 	Show only when entering the viewport
 </div>
 ```
@@ -77,10 +77,10 @@ The full example below showcases all the functionalities of the wrapper componen
 <!-- As written in Vue -->
 <div ref=“newRoot”>
 	<SkyAppear
-		:active=“isActive”
-		:direction=“‘inline’”
-		:options=“{
-			initState: ’outside’,
+		:active="isActive"
+		:direction="'inline'"
+		:options="{
+			initState: 'outside',
 			classless: true,
 			appearOnce: false,
 			triggerEvents: [
@@ -88,15 +88,15 @@ The full example below showcases all the functionalities of the wrapper componen
 				{ name: 'scroll', target: $refs.newRoot },
 			],
 			root: $refs.newRoot,
-			rootMargin: ’10% 10%’,
+			rootMargin: '10% 10%',
 			thresholds: [0, .25, .5, .75, 1],
 			delay: 'animationFrame',
 		}"
-		@enter=“enterHandling”
-		@leave=“leaveHandling”
-		@update=“updateHandling”
+		@enter="enterHandling"
+		@leave="leaveHandling"
+		@update="updateHandling"
 	>
-		<div class=“test-element” v-slot=“{ isIntersecting, intersectionRatio }">
+		<div class="test-element" v-slot="{ isIntersecting, intersectionRatio }">
 			<p
 				v-if="isIntersecting"
 				:style="{
@@ -109,13 +109,13 @@ The full example below showcases all the functionalities of the wrapper componen
 				Not yet there - is intersecting: {{ state }}
 			</p>
 		</div>
-	</LmboAppear>
+	</SkyAppear>
 </div>
 
 <!-- As it may appear in the dom -->
 <div>
-	<div class=“test-element”>
-		<p style=“transform: ‘translate3d(12.5%, 0, 0);”>
+	<div class="test-element">
+		<p style="transform: translate3d(12.5%, 0, 0);">
 			Show only when entering the viewport - is intersecting: true
 		</p>
 	</div>
