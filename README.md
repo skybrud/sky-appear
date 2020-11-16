@@ -35,7 +35,7 @@ export default {
 
 Alternatively SkyAppear can be installed globally:
 
-```js
+``` js
 import Vue from 'vue';
 import SkyAppear from 'sky-appear';
 
@@ -162,6 +162,7 @@ Each of the event types pass an event object when called upon, and structurally 
 | -------- | ----------- |
 | target | A reference to the element currently observed. |
 | intersectionRatio | A value going from 0 (fully out of view) to 1 (fully in view). |
+| intersectionJourney | A value going from 0 (fully outside after view) to 1 (fully outside before view). |
 | isIntersecting | Boolean value telling if the target is either fully or partially inside the viewport. |
 | isBeforeViewport | Boolean value telling whether the target is outside the view in the before-direction (left or upwards depending on set direction). |
 | isAfterViewport | Boolean value telling whether the target is outside the view in the after-direction (right or downwards depending on set direction). |
@@ -173,7 +174,7 @@ Each of the event types pass an event object when called upon, and structurally 
 ## Exposed slot props
 
 Other than listening to the events and looking at the classes, the wrapper also exposes a set of properties to be utilized.
-The exposed props are a selection of the data present in the events: The `intersectionRatio`, `isIntersecting`, `isBeforeViewport` and `isAfterViewport`.
+The exposed props are a selection of the data present in the events: The `intersectionRatio`, `intersectionJourney`, `isIntersecting`, `isBeforeViewport` and `isAfterViewport`.
 
 ## General notes
 
@@ -188,5 +189,4 @@ These four parts all have an effect on each other, and if one changes then often
 
 ## Notes on possible improvement
 
-* Add another intersectionRatio-esque value. This value should represent the element's journey into, through and out of the viewport, being a steady value from 0 (while the viewport is before the element) going through .5 (when the element is centered in the viewport) to 1 (when the viewport has passed the element). This should should take into consideration, whether the element is bigger than the viewport or smaller.
 * Add global options to be used as defaults.
