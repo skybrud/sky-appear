@@ -40,7 +40,7 @@ var script = {
 			activeTriggerEvents: [],
 			// Deliverables
 			intersectionRatio: (state === 'inside') * 1,
-			intersectionJourney: (state === 'after') * 1,
+			intersectionJourney: (state === 'before') * 1,
 			isBeforeViewport: state === 'before',
 			isAfterViewport: state === 'after',
 			// Observer and classes
@@ -422,13 +422,13 @@ var script = {
 									) {
 										this.state = 'before';
 										this.isBeforeViewport = true;
+										this.intersectionJourney = 1;
 									} else if (
 										boundingClientRect.top >
 										rootBounds.bottom
 									) {
 										this.state = 'after';
 										this.isAfterViewport = true;
-										this.intersectionJourney = 1;
 									} else {
 										this.state = 'outside';
 									}
@@ -443,13 +443,13 @@ var script = {
 									) {
 										this.state = 'before';
 										this.isBeforeViewport = true;
+										this.intersectionJourney = 1;
 									} else if (
 										boundingClientRect.left >
 										rootBounds.right
 									) {
 										this.state = 'after';
 										this.isAfterViewport = true;
-										this.intersectionJourney = 1;
 									} else {
 										this.state = 'outside';
 									}
@@ -807,7 +807,7 @@ var script = {
   /* scoped */
   var __vue_scope_id__ = undefined;
   /* module identifier */
-  var __vue_module_identifier__ = "data-v-4c9c9940";
+  var __vue_module_identifier__ = "data-v-5696e0f6";
   /* functional template */
   var __vue_is_functional_template__ = undefined;
   /* component normalizer */

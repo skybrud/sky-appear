@@ -37,7 +37,7 @@ export default {
 			activeTriggerEvents: [],
 			// Deliverables
 			intersectionRatio: (state === 'inside') * 1,
-			intersectionJourney: (state === 'after') * 1,
+			intersectionJourney: (state === 'before') * 1,
 			isBeforeViewport: state === 'before',
 			isAfterViewport: state === 'after',
 			// Observer and classes
@@ -406,13 +406,13 @@ export default {
 									) {
 										this.state = 'before';
 										this.isBeforeViewport = true;
+										this.intersectionJourney = 1;
 									} else if (
 										boundingClientRect.top >
 										rootBounds.bottom
 									) {
 										this.state = 'after';
 										this.isAfterViewport = true;
-										this.intersectionJourney = 1;
 									} else {
 										this.state = 'outside';
 									}
@@ -427,13 +427,13 @@ export default {
 									) {
 										this.state = 'before';
 										this.isBeforeViewport = true;
+										this.intersectionJourney = 1;
 									} else if (
 										boundingClientRect.left >
 										rootBounds.right
 									) {
 										this.state = 'after';
 										this.isAfterViewport = true;
-										this.intersectionJourney = 1;
 									} else {
 										this.state = 'outside';
 									}
