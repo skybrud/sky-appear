@@ -1,6 +1,6 @@
 {
 	"name": "sky-appear",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "Renderless Vue wrapper component for apply class on elements appearing in viewport",
 	"main": "./dist/sky-appear.ssr.js",
 	"module": "./dist/sky-appear.esm.js",
