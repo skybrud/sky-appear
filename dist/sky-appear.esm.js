@@ -36,6 +36,7 @@ var script = {
 			activeTriggerEvents: [],
 			// Deliverables
 			intersectionRatio: (state === 'inside') * 1,
+			intersectionJourney: (state === 'after') * 1,
 			isBeforeViewport: state === 'before',
 			isAfterViewport: state === 'after',
 			// Observer and classes
@@ -344,6 +345,7 @@ var script = {
 					var statePrevious = this.state;
 					var intersectionRatioPrevious = this.intersectionRatio;
 					this.intersectionRatio = 0;
+					this.intersectionJourney = 0;
 					this.isBeforeViewport = false;
 					this.isAfterViewport = false;
 
@@ -359,27 +361,49 @@ var script = {
 							// Vertical ratio
 							case 'block':
 								{
+									// Intersection ratio
 									this.intersectionRatio =
 										intersectionRect.height /
 										boundingClientRect.height;
+									// Intersection journey
+									this.intersectionJourney = Math.min(
+										Math.max(
+											0,
+											(rootBounds.bottom - boundingClientRect.top) /
+												(rootBounds.height + boundingClientRect.height)
+										),
+										1
+									);
 								}
 								break;
 							// Horizontal ratio
 							case 'inline':
 								{
+									// Intersection ratio
 									this.intersectionRatio =
 										intersectionRect.width /
 										boundingClientRect.width;
+									// Intersection journey
+									this.intersectionJourney = Math.min(
+										Math.max(
+											0,
+											(rootBounds.right - boundingClientRect.left) /
+												(rootBounds.width + boundingClientRect.width)
+										),
+										1
+									);
 								}
 								break;
 							// Both axi ratio
 							case 'both':
 								{
+									// Intersection ratio
 									this.intersectionRatio =
 										(intersectionRect.height /
 											boundingClientRect.height) *
 										(intersectionRect.width /
 											boundingClientRect.width);
+									// Intersection journey - Only works one direction!
 								}
 								break;
 						}
@@ -400,6 +424,7 @@ var script = {
 									) {
 										this.state = 'after';
 										this.isAfterViewport = true;
+										this.intersectionJourney = 1;
 									} else {
 										this.state = 'outside';
 									}
@@ -420,6 +445,7 @@ var script = {
 									) {
 										this.state = 'after';
 										this.isAfterViewport = true;
+										this.intersectionJourney = 1;
 									} else {
 										this.state = 'outside';
 									}
@@ -480,6 +506,7 @@ var script = {
 						isBeforeViewport: this.isBeforeViewport,
 						isAfterViewport: this.isAfterViewport,
 						intersectionRatio: this.intersectionRatio,
+						intersectionJourney: this.intersectionJourney,
 						target: target,
 					};
 
@@ -757,6 +784,7 @@ var script = {
 			return this.$scopedSlots.default({
 				isIntersecting: this.state === 'inside',
 				intersectionRatio: this.intersectionRatio,
+				intersectionJourney: this.intersectionJourney,
 				isBeforeViewport: this.isBeforeViewport,
 				isAfterViewport: this.isAfterViewport,
 			});
